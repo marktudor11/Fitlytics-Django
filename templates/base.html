@@ -12,6 +12,8 @@
   <header class="nav">
     <a href="/">Fitlytics</a>
     <nav>
+      <a href="{% url 'signup' %}" class="btn primary">Sign Up</a>
+      <a href="{% url 'login' %}" class="btn">Log In</a>
       <a href="{% url 'core:home' %}">Home</a>
       <a href="{% url 'core:nutrition' %}">Nutrition</a>
       <a href="{% url 'core:training' %}">Training</a>

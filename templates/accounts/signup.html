@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block title %}Sign Up{% endblock %}
+{% block content %}
+<section class="auth-page">
+  <div class="auth-card">
+    <h1>Create Your Account</h1>
+    <p>Join Fitlytics and start tracking your fitness and nutrition today.</p>
+    <form>
+      <label>Username</label>
+      <input type="text" placeholder="Enter username" required>
+
+      <label>Email</label>
+      <input type="email" placeholder="Enter email" required>
+
+      <label>Password</label>
+      <input type="password" placeholder="Enter password" required>
+
+      <button type="submit" class="btn primary">Sign Up</button>
+    </form>
+  </div>
+</section>
+{% endblock %}
