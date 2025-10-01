@@ -1,6 +1,129 @@
-{% extends "base.html" %}
-{% block title %}Nutrition · Fitlytics{% endblock %}
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Nutrition{% endblock %}
+
 {% block content %}
-<h1>Nutrition</h1>
-<p>Nutrition tracking page coming soon.</p>
+<link rel="stylesheet" href="{% static 'css/nutrition.css' %}">
+
+<div class="nutrition-page">
+
+  <!-- Hero Section -->
+  <section class="hero-banner">
+    <img src="{% static 'img/nut4.avif' %}" alt="Healthy food banner">
+    <div class="hero-overlay">
+      <h1>Nutrition Dashboard</h1>
+      <p>Fuel your progress — track your meals, calories, and macros.</p>
+    </div>
+  </section>
+
+  <!-- Daily Summary Cards -->
+  <section class="nutrition-summary">
+    <h2>Today's Nutrition Summary</h2>
+    <div class="summary-grid">
+      <div class="summary-card calories">
+        <h3>Calories</h3>
+        <p><strong>1,870</strong> / 2,100 kcal</p>
+      </div>
+      <div class="summary-card protein">
+        <h3>Protein</h3>
+        <p><strong>145g</strong> / 160g</p>
+      </div>
+      <div class="summary-card carbs">
+        <h3>Carbs</h3>
+        <p><strong>210g</strong> / 250g</p>
+      </div>
+      <div class="summary-card fat">
+        <h3>Fat</h3>
+        <p><strong>60g</strong> / 70g</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Fancy Meal Logging Card -->
+  <section class="meal-logger">
+    <div class="meal-card">
+      <h2>🍴 Log a Meal</h2>
+      <p class="subtitle">Quickly add your meals and track your daily intake.</p>
+
+      <form method="post" class="meal-form">
+        {% csrf_token %}
+
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Meal Type</label>
+            <select name="meal" required>
+              <option>Breakfast</option>
+              <option>Lunch</option>
+              <option>Dinner</option>
+              <option>Snack</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Food Name</label>
+            <input type="text" name="food" placeholder="Grilled Chicken" required>
+          </div>
+
+          <div class="form-group">
+            <label>Calories</label>
+            <input type="number" name="calories" placeholder="300" required>
+          </div>
+
+          <div class="form-group">
+            <label>Protein (g)</label>
+            <input type="number" name="protein" placeholder="30">
+          </div>
+
+          <div class="form-group">
+            <label>Carbs (g)</label>
+            <input type="number" name="carbs" placeholder="20">
+          </div>
+
+          <div class="form-group">
+            <label>Fat (g)</label>
+            <input type="number" name="fat" placeholder="10">
+          </div>
+        </div>
+
+        <button type="submit" class="btn-log">+ Add Meal</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Meal History Table -->
+  <section class="meal-history">
+    <h2>Today's Meals</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Meal</th>
+          <th>Food</th>
+          <th>Calories</th>
+          <th>Protein</th>
+          <th>Carbs</th>
+          <th>Fat</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Breakfast</td>
+          <td>Oatmeal with Milk</td>
+          <td>320</td>
+          <td>15g</td>
+          <td>45g</td>
+          <td>8g</td>
+        </tr>
+        <tr>
+          <td>Lunch</td>
+          <td>Chicken & Rice</td>
+          <td>550</td>
+          <td>40g</td>
+          <td>60g</td>
+          <td>10g</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+</div>
 {% endblock %}

@@ -1,0 +1,189 @@
+/* Fitlytics Unified Theme – Nutrition Page */
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background:
+    radial-gradient(1200px 800px at 80% -20%, rgba(127, 219, 255, .15), transparent 60%),
+    radial-gradient(900px 700px at -10% 20%, rgba(126, 245, 212, .14), transparent 55%),
+    #0b0b0c;
+  color: #e9e9ec;
+}
+
+/* Hero Banner */
+
+.hero-banner {
+  position: relative;
+  height: 280px;
+  overflow: hidden;
+  border-radius: 18px;
+  margin-bottom: 40px;
+  background: rgba(255,255,255,.08);
+  border: 1px solid rgba(255,255,255,.12);
+  box-shadow: 0 10px 30px rgba(0,0,0,.35);
+}
+.hero-banner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(60%) blur(1px);
+}
+.hero-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #e9e9ec;
+  text-align: center;
+  background: rgba(11,11,12,0.72);
+  padding: 32px 24px;
+  border-radius: 16px;
+  box-shadow: 0 6px 24px rgba(0,0,0,.25);
+}
+.hero-overlay h1 {
+  font-size: clamp(34px, 4.5vw, 56px);
+  font-weight: 800;
+  margin-bottom: 10px;
+  letter-spacing: -.03em;
+}
+.hero-overlay p {
+  font-size: clamp(16px, 1.9vw, 19px);
+  color: #b8b8bf;
+  opacity: 1;
+}
+
+/* Summary Section */
+
+.nutrition-summary {
+  text-align: center;
+  margin-bottom: 40px;
+}
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 18px;
+  margin-top: 18px;
+}
+.summary-card {
+  background: rgba(255,255,255,.06);
+  border-radius: 18px;
+  border: 1px solid rgba(255,255,255,.12);
+  padding: 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,.18);
+  transition: transform .2s, background .25s, border-color .2s;
+}
+.summary-card:hover {
+  transform: translateY(-4px);
+  background: rgba(255,255,255,.10);
+  border-color: rgba(255,255,255,.24);
+}
+.summary-card h3 {
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #e9e9ec;
+}
+
+/* Unified accent colors matching home theme */
+.calories { border-top: 4px solid #6aa8ff; }
+.protein { border-top: 4px solid #7ef5d4; }
+.carbs { border-top: 4px solid #6aa8ff99; }
+.fat { border-top: 4px solid #7ef5d499; }
+
+/* Meal Logger */
+
+.meal-card {
+  background: rgba(255,255,255,.06);
+  border-radius: 18px;
+  border: 1px solid rgba(255,255,255,.12);
+  padding: 25px;
+  max-width: 900px;
+  margin: 0 auto 50px;
+  box-shadow: 0 10px 30px rgba(0,0,0,.18);
+}
+.meal-card h2 {
+  text-align: center;
+  color: #e9e9ec;
+  margin-bottom: 10px;
+}
+.meal-card .subtitle {
+  text-align: center;
+  color: #b8b8bf;
+  margin-bottom: 20px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 15px;
+}
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 500;
+}
+
+.form-group input, .form-group select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid rgba(255,255,255,.18);
+  background: rgba(255,255,255,.10);
+  color: #e9e9ec;
+  border-radius: 8px;
+  transition: border 0.2s, background .2s;
+}
+.form-group input:focus, .form-group select:focus {
+  border-color: #6aa8ff;
+  outline: none;
+  background: rgba(106,168,255,.10);
+}
+
+/* Unified Button Style */
+
+.btn-log {
+  display: block;
+  margin: 20px auto 0;
+  background: linear-gradient(135deg, #6aa8ff, #7ef5d4);
+  color: #0b0b0c;
+  border: none;
+  padding: 12px 28px;
+  border-radius: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(106,168,255,.18);
+}
+.btn-log:hover {
+  transform: translateY(-2px);
+  filter: saturate(110%);
+  box-shadow: 0 8px 24px rgba(106,168,255,.22);
+}
+
+/* Meal History Table */
+
+.meal-history {
+  max-width: 900px;
+  margin: 0 auto 60px;
+}
+.meal-history h2 {
+  text-align: center;
+  margin-bottom: 10px;
+  color: #e9e9ec;
+}
+.meal-history table {
+  width: 100%;
+  border-collapse: collapse;
+  background: rgba(255,255,255,.06);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.18);
+}
+.meal-history th, .meal-history td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid rgba(255,255,255,.10);
+  color: #e9e9ec;
+}
+.meal-history th {
+  background: rgba(255,255,255,.10);
+  color: #e9e9ec;
+  font-weight: 600;
+}
