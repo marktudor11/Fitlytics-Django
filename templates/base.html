@@ -1,0 +1,26 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>{% block title %}Fitlytics{% endblock %}</title>
+  <link rel="icon" href="{% static 'img/favicon.ico' %}">
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+</head>
+<body class="site">
+  <header class="nav">
+    <a href="/">Fitlytics</a>
+    <nav>
+      <a href="{% url 'core:home' %}">Home</a>
+      <a href="{% url 'core:nutrition' %}">Nutrition</a>
+      <a href="{% url 'core:training' %}">Training</a>
+      <a href="{% url 'core:metrics' %}">Metrics</a>
+    </nav>
+  </header>
+  <main class="container">
+    {% block content %}{% endblock %}
+  </main>
+  <footer class="footer">© {{ now|default:"" }} Fitlytics</footer>
+</body>
+</html>

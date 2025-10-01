@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block title %}Fitlytics{% endblock %}
+{% block content %}
+
+<header class="hero">
+  <span class="eyebrow">
+    <span class="dot" aria-hidden="true">⚡</span> Smart fitness + nutrition
+  </span>
+  <h1>See your health story — beautifully.</h1>
+  <p class="lede">
+    Log meals and workouts, visualize trends, and get gentle coaching nudges.
+    A clean, privacy-first dashboard for progress that actually sticks.
+  </p>
+  <div class="cta">
+    <a class="btn primary" href="/nutrition/">Start logging</a>
+    <a class="btn" href="/training/">Open training</a>
+  </div>
+</header>
+
+<section class="container">
+  <div class="grid">
+    <article class="card">
+      <h3>Nutrition</h3>
+      <p>Track calories & macros with 7/30-day rollups and compliance.</p>
+      <div class="stats">
+        <span class="stat">Protein ↑</span>
+        <span class="stat">Calories on target</span>
+      </div>
+    </article>
+
+    <article class="card">
+      <h3>Training</h3>
+      <p>Volume by muscle group and auto-detected PRs to keep you sharp.</p>
+      <div class="stats">
+        <span class="stat">PR this week</span>
+        <span class="stat">Balanced volume</span>
+      </div>
+    </article>
+
+    <article class="card">
+      <h3>Weight Trend</h3>
+      <p>Daily points + MA7 moving average to smooth the noise.</p>
+      <div class="stats">
+        <span class="stat">MA7 −0.3 kg</span>
+        <span class="stat">Plateau watch</span>
+      </div>
+    </article>
+
+    <article class="card">
+      <h3>Coach View</h3>
+      <p>Share read-only or edit access with your coach — revoke anytime.</p>
+      <div class="stats">
+        <span class="stat">Private by default</span>
+      </div>
+    </article>
+  </div>
+</section>
+
+<footer class="footer">
+  © {{ request.user.username|default:"You" }} · Fitlytics · {{ now|date:"Y" }}
+</footer>
+
+{% endblock %}

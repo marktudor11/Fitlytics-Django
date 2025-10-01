@@ -1,0 +1,31 @@
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual environment
+.venv/
+
+# Django stuff
+db.sqlite3
+.env
+
+# VS Code settings
+.vscode/
+.idea/
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Bytecode / build / logs
+*.log
+*.pot
+*.pyc
+*.so
+*.egg-info/
+dist/
+build/
+
+# Static cache (optional)
+staticfiles/
