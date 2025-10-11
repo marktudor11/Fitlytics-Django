@@ -123,17 +123,54 @@ body {
 
 .form-group input, .form-group select {
   width: 100%;
-  padding: 8px;
+  padding: 8px 36px 8px 10px; /* room for custom arrow */
   border: 1px solid rgba(255,255,255,.18);
   background: rgba(255,255,255,.10);
   color: #e9e9ec;
   border-radius: 8px;
   transition: border 0.2s, background .2s;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
 }
 .form-group input:focus, .form-group select:focus {
   border-color: #6aa8ff;
   outline: none;
   background: rgba(106,168,255,.10);
+}
+
+/* Custom dropdown arrow and positioning */
+.form-group {
+  position: relative;
+}
+.form-group::after {
+  content: "\25BC"; /* ▼ */
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: #e9e9ec;
+  opacity: 0.9;
+  font-size: 12px;
+}
+
+/* meal-select specific: show dark text and white dropdown in supported browsers */
+.meal-select{
+  color: #1d1d1f; /* visible selected value */
+  background: #ffffff; /* white field for contrast */
+  padding: 8px 36px 8px 10px;
+}
+
+/* Some browsers don't allow styling native option; set general option color for fallback */
+.meal-select option{
+  color: #1d1d1f;
+  background: #ffffff;
+}
+
+/* keep the custom arrow light when using white background */
+.meal-select ~ .form-group::after, .form-group .meal-select + .form-group::after {
+  color: #1d1d1f;
 }
 
 /* Unified Button Style */

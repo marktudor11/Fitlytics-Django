@@ -1,21 +1,21 @@
 {% extends "base.html" %}
+{% load static %}
 {% block title %}Fitlytics{% endblock %}
 {% block content %}
-
-<header class="hero">
-  <span class="eyebrow">
-    <span class="dot" aria-hidden="true">⚡</span> Smart fitness + nutrition
-  </span>
-  <h1>See your health story — beautifully.</h1>
-  <p class="lede">
-    Log meals and workouts, visualize trends, and get gentle coaching nudges.
-    A clean, privacy-first dashboard for progress that actually sticks.
-  </p>
-  <div class="cta">
-    <a class="btn primary" href="/nutrition/">Start logging</a>
-    <a class="btn" href="/training/">Open training</a>
+<link rel="stylesheet" href="{% static 'css/base.css' %}">
+<section class="hero-banner">
+  <img src="{% static 'img/home2.avif' %}" alt="Home Banner">
+  <div class="hero-overlay">
+    <span class="eyebrow">
+      <span class="dot" aria-hidden="true">⚡</span> Smart fitness + nutrition
+    </span>
+    <h1>See your health story — beautifully.</h1>
+    <p class="lede">
+      Log meals and workouts, visualize trends, and get gentle coaching nudges.
+      A clean, privacy-first dashboard for progress that actually sticks.
+    </p>
   </div>
-</header>
+</section>
 
 <section class="container">
   <div class="grid">
