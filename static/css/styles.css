@@ -1,5 +1,46 @@
 /* ===== Fitlytics — Apple-like UI (minimal, elegant) ===== */
 
+/* Add this to your main CSS file, e.g., static/css/base.css */
+
+.hero-banner {
+  position: relative;
+  height: 280px;
+  overflow: hidden;
+  border-radius: 18px;
+  margin-bottom: 40px;
+  background: rgba(255,255,255,.08);
+  border: 1px solid rgba(255,255,255,.12);
+  box-shadow: 0 10px 30px rgba(0,0,0,.35);
+}
+.hero-banner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(60%) blur(1px);
+}
+.hero-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #e9e9ec;
+  text-align: center;
+  background: rgba(11,11,12,0.72);
+  padding: 32px 24px;
+  border-radius: 16px;
+  box-shadow: 0 6px 24px rgba(0,0,0,.25);
+}
+.hero-overlay h1 {
+  font-size: clamp(34px, 4.5vw, 56px);
+  font-weight: 800;
+  margin-bottom: 10px;
+  letter-spacing: -.03em;
+}
+.hero-overlay p {
+  font-size: clamp(16px, 1.9vw, 19px);
+  color: #b8b8bf;
+  opacity: 1;
+}
 /* System font stack feels native on macOS/iOS/Windows */
 :root{
   --bg: #0b0b0c;            /* deep charcoal */
@@ -133,4 +174,193 @@ h1{
 @media (max-width: 560px){
   .nav{ margin:10px; padding:10px 14px }
   .cta{ gap:10px }
+}
+
+/* Signup / Auth page layout */
+.auth-page .signup-container, .auth-page .auth-container{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+  align-items: stretch;
+  max-width: 1100px;
+  margin: 0 auto; 
+  padding: 36px;
+}
+.signup-form, .auth-form-col{
+  display: flex;
+  align-items: center;
+}
+.signup-form .form-fields, .auth-form-col .auth-card{
+  width: 100%;
+}
+.signup-image, .auth-image-col{
+  display: flex; align-items: center; justify-content: center;
+}
+.signup-image img, .auth-image{
+  width: 100%;
+  height: 100%;
+  max-height: 560px;
+  object-fit: cover;
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,.06);
+  box-shadow: 0 10px 30px rgba(0,0,0,.25);
+}
+.signup-form h1{ margin-top:0 }
+
+@media (max-width: 880px){
+  .auth-page .signup-container, .auth-page .auth-container{
+    grid-template-columns: 1fr;
+    padding: 20px;
+  }
+  .signup-image img, .auth-image{ max-height: 340px }
+}
+
+
+/* Sign up page styles */
+/* SIGNUP PAGE TWO-COLUMN LAYOUT */
+.signup-container {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  width: 90%;
+  max-width: 1100px;
+  margin: 40px auto;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px);
+}
+
+/* LEFT COLUMN - FORM */
+.signup-form {
+  flex: 1;
+  padding: 50px 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.signup-form h1 {
+  margin-bottom: 8px;
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.signup-form p {
+  opacity: 0.85;
+  margin-bottom: 25px;
+}
+
+.form-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Force labels and controls to stack and be full-width for the signup form */
+.form-fields label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+  color: var(--fg);
+}
+.form-fields input,
+.form-fields select,
+.form-fields textarea {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 10px;
+}
+.form-fields button {
+  align-self: flex-start; /* keep button left-aligned */
+  margin-top: 8px;
+}
+
+.form-fields input,
+.form-fields select {
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--border, rgba(255,255,255,0.1));
+  background: rgba(255, 255, 255, 0.07);
+  color: var(--fg, white);
+}
+
+.form-fields input:focus,
+.form-fields select:focus {
+  outline: none;
+  border-color: rgba(255,255,255,0.3);
+}
+
+/* RIGHT COLUMN - IMAGE */
+.signup-image {
+  flex: 1;
+  position: relative;
+}
+
+.signup-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(80%) contrast(1.05);
+}
+
+/* RESPONSIVE */
+@media (max-width: 850px) {
+  .signup-container {
+    flex-direction: column;
+  }
+  .signup-image {
+    height: 240px;
+  }
+  .signup-form {
+    padding: 30px;
+  }
+}
+
+/* Stronger, signup-specific stacking rules to avoid layout conflicts */
+.signup-container .form-fields > label {
+  display: block !important;
+  margin: 0 0 6px 0 !important;
+  font-weight: 600 !important;
+  color: var(--fg) !important;
+}
+.signup-container .form-fields > input,
+.signup-container .form-fields > select,
+.signup-container .form-fields > textarea {
+  display: block !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+  margin: 0 0 14px 0 !important;
+}
+.signup-container .form-fields {
+  gap: 6px !important;
+  align-items: stretch !important;
+}
+
+/* Enforce black text for select and option elements in signup form */
+.signup-container .form-fields > select {
+  /* match other inputs: dark translucent background with light text */
+  background: rgba(255,255,255,0.10) !important;
+  color: var(--fg, #e9e9ec) !important;
+  border: 1px solid rgba(255,255,255,0.12) !important;
+}
+.signup-container .form-fields > select option {
+  /* fallback for browsers that honor option styling */
+  color: #000000;
+  background: #ffffff;
+}
+
+/* Vendor and focus fallbacks */
+.signup-container .form-fields > select:-moz-focusring {
+  color: #000000 !important;
+}
+.signup-container .form-fields > select::-ms-expand {
+  color: #000000 !important;
+}
+
+/* Ensure the submit button doesn't stretch full width unless desired */
+.signup-container .form-fields > button {
+  width: auto !important;
 }
