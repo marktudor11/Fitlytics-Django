@@ -22,6 +22,7 @@ urlpatterns = [
     path("", include("core.urls", namespace="core")), # ← this makes "/" go to core.home
     path('accounts/', include('accounts.urls')),  
     path('nutrition/', include('nutrition.urls')),
+    path('training/', include('training.urls'))
     
 
 ]

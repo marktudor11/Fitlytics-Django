@@ -1,0 +1,266 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Training{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/training.css' %}">
+
+<div class="training-page">
+
+  <!-- Hero -->
+  <section class="hero-banner">
+    <img src="{% static 'img/training.avif' %}" alt="Training hero banner">
+    <div class="hero-overlay">
+      <h1>Training Dashboard</h1>
+      <p>Plan, log, and track your workouts — chase PRs and push smarter.</p>
+    </div>
+  </section>
+
+  <!-- Today Summary -->
+  <section class="training-summary container">
+    <h2>Today’s Training Summary</h2>
+    <div class="summary-grid">
+      <div class="summary-card">
+        <h3>Total Volume</h3>
+        <p><strong>{{ totals.volume|default:0|floatformat:0 }}</strong> kg·reps</p>
+      </div>
+      <div class="summary-card">
+        <h3>Total Sets</h3>
+        <p><strong>{{ totals.sets|default:0 }}</strong></p>
+      </div>
+      <div class="summary-card">
+        <h3>Exercises</h3>
+        <p><strong>{{ totals.exercises|default:0 }}</strong></p>
+      </div>
+      <div class="summary-card">
+        <h3>Duration</h3>
+        <p><strong>{{ totals.duration_min|default:0 }}</strong> min</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Workout Logger -->
+  <section class="workout-logger container">
+    <article class="card workout-card">
+      <header class="card-head">
+        <h2>🏋️ Log a Workout</h2>
+        <p class="subtitle">Add workout meta, then log one exercise with multiple sets. You can submit multiple times for additional exercises.</p>
+      </header>
+
+      <form method="post" class="workout-form">
+        {% csrf_token %}
+
+        <!-- Workout meta -->
+        <div class="meta-grid">
+          <label class="fg">
+            <span>Workout Date</span>
+            <input type="date" name="workout_date" value="{{ today|date:'Y-m-d' }}" required>
+          </label>
+
+          <label class="fg">
+            <span>Duration (min)</span>
+            <input type="number" step="1" min="0" name="duration_min" placeholder="60">
+          </label>
+
+          <label class="fg fg-span">
+            <span>Notes (optional)</span>
+            <input type="text" name="notes" placeholder="Push day… tempo bench, light accessories">
+          </label>
+        </div>
+
+        <hr class="sep">
+
+        <!-- Exercise header -->
+        <div class="exercise-grid">
+          <label class="fg">
+            <span>Exercise Name</span>
+            <input type="text" name="exercise_name" placeholder="Barbell Bench Press" required>
+          </label>
+
+          <label class="fg">
+            <span>Muscle Group</span>
+            <select name="muscle_group">
+              <option value="">Select</option>
+              <option>Chest</option>
+              <option>Back</option>
+              <option>Legs</option>
+              <option>Shoulders</option>
+              <option>Arms</option>
+              <option>Core</option>
+              <option>Full Body</option>
+            </select>
+          </label>
+
+          <label class="fg checkbox">
+            <input type="checkbox" name="is_compound" value="1">
+            <span>Compound</span>
+          </label>
+        </div>
+
+        <!-- Sets table -->
+        <div class="sets-wrap">
+          <div class="sets-head">
+            <h3>Sets</h3>
+            <button type="button" class="btn ghost" id="addSetBtn">+ Add Set</button>
+          </div>
+
+          <div class="table-wrap">
+            <table class="sets-table" id="setsTable">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Reps</th>
+                  <th>Weight (kg)</th>
+                  <th>RIR</th>
+                  <th>Warmup</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- Default first row -->
+                <tr>
+                  <td class="idx">1</td>
+                  <td><input type="number" min="1" name="reps[]" placeholder="8" required></td>
+                  <td><input type="number" step="0.5" min="0" name="weight_kg[]" placeholder="60.0"></td>
+                  <td><input type="number" step="0.5" min="0" max="10" name="rir[]" placeholder="2"></td>
+                  <td class="center">
+                    <input type="checkbox" name="is_warmup[]" value="1">
+                  </td>
+                  <td class="action-cell">
+                    <button type="button" class="icon-btn remove-row" aria-label="Remove set">&times;</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <footer class="form-actions">
+          <button type="submit" class="btn primary">Save Exercise & Sets</button>
+        </footer>
+      </form>
+    </article>
+  </section>
+
+  <!-- Today’s Workouts & Sets -->
+  <section class="workout-history container">
+    <h2>Today’s Workouts</h2>
+
+    <!-- High-level grouping by workout -->
+    {% for w in workouts %}
+      <article class="card workout-block">
+        <header class="workout-head">
+          <div>
+            <h3>{{ w.date }} — {{ w.duration_min|default:0 }} min</h3>
+            <p class="muted">{{ w.notes }}</p>
+          </div>
+          <div class="pill">Volume: <strong>{{ w.volume|default:0|floatformat:0 }}</strong></div>
+        </header>
+
+        <!-- Exercises inside this workout -->
+        {% for ex in w.exercises %}
+          <div class="exercise-block">
+            <div class="ex-head">
+              <h4>{{ ex.name }}</h4>
+              <span class="tag">{{ ex.muscle_group }}</span>
+              {% if ex.is_compound %}<span class="tag tag-compound">Compound</span>{% endif %}
+            </div>
+
+            <div class="table-wrap compact">
+              <table class="sets-table">
+                <thead>
+                  <tr><th>#</th><th>Reps</th><th>Weight</th><th>RIR</th><th>Warmup</th></tr>
+                </thead>
+                <tbody>
+                  {% for s in ex.sets %}
+                    <tr>
+                      <td>{{ forloop.counter }}</td>
+                      <td>{{ s.reps }}</td>
+                      <td>{{ s.weight_kg|default:0 }}</td>
+                      <td>{{ s.rir|default:"-" }}</td>
+                      <td>{{ s.is_warmup|yesno:"Yes,No" }}</td>
+                    </tr>
+                  {% empty %}
+                    <tr><td colspan="5">No sets logged.</td></tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        {% empty %}
+          <p>No exercises logged for this workout.</p>
+        {% endfor %}
+      </article>
+    {% empty %}
+      <article class="card"><p>No workouts today yet. Log your first above!</p></article>
+    {% endfor %}
+  </section>
+
+  <!-- PRs & Top Volume (placeholders ready to bind) -->
+  <section class="container extras">
+    <div class="grid">
+      <article class="card">
+        <h2>Recent PRs</h2>
+        <ul class="list">
+          {% for pr in recent_prs %}
+            <li><strong>{{ pr.exercise_name }}</strong> — {{ pr.pr_weight_kg }} kg x {{ pr.pr_reps }} @ {{ pr.achieved_at }}</li>
+          {% empty %}
+            <li>No PRs yet — keep pushing!</li>
+          {% endfor %}
+        </ul>
+      </article>
+
+      <article class="card">
+        <h2>Top Volume Exercises (7d)</h2>
+        <ul class="list">
+          {% for row in top_volume %}
+            <li><strong>{{ row.exercise_name }}</strong> — {{ row.volume|floatformat:0 }} kg·reps</li>
+          {% empty %}
+            <li>Log workouts to see your top volume movers.</li>
+          {% endfor %}
+        </ul>
+      </article>
+    </div>
+  </section>
+
+</div>
+
+<!-- Tiny JS to add/remove set rows -->
+<script>
+(function() {
+  const table = document.getElementById('setsTable').querySelector('tbody');
+  const addBtn = document.getElementById('addSetBtn');
+
+  function renumber() {
+    [...table.querySelectorAll('tr')].forEach((tr, idx) => {
+      const idxCell = tr.querySelector('.idx');
+      if (idxCell) idxCell.textContent = idx + 1;
+    });
+  }
+
+  addBtn.addEventListener('click', () => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td class="idx"></td>
+      <td><input type="number" min="1" name="reps[]" placeholder="8" required></td>
+      <td><input type="number" step="0.5" min="0" name="weight_kg[]" placeholder="60.0"></td>
+      <td><input type="number" step="0.5" min="0" max="10" name="rir[]" placeholder="2"></td>
+      <td class="center"><input type="checkbox" name="is_warmup[]" value="1"></td>
+      <td class="action-cell"><button type="button" class="icon-btn remove-row" aria-label="Remove set">&times;</button></td>
+    `;
+    table.appendChild(tr);
+    renumber();
+  });
+
+  table.addEventListener('click', (e) => {
+    if (e.target.closest('.remove-row')) {
+      const tr = e.target.closest('tr');
+      tr.parentNode.removeChild(tr);
+      renumber();
+    }
+  });
+
+  renumber();
+})();
+</script>
+{% endblock %}
