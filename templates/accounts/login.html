@@ -1,19 +1,34 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %}Login{% endblock %}
 {% block content %}
 <section class="auth-page">
-  <div class="auth-card">
-    <h1>Welcome Back</h1>
-    <p>Log in to continue your progress.</p>
-    <form>
-      <label>Email</label>
-      <input type="email" placeholder="Enter email" required>
+  <div class="signup-container">
 
-      <label>Password</label>
-      <input type="password" placeholder="Enter password" required>
+    <!-- LEFT: LOGIN FORM -->
+    <div class="signup-form">
+      <div class="form-fields">
+        <h1>Welcome Back</h1>
+        <p>Log in to continue your progress.</p>
 
-      <button type="submit" class="btn primary">Log In</button>
-    </form>
+        <form method="post">
+          {% csrf_token %}
+          <label>Email</label>
+          <input type="email" name="email" placeholder="Enter email" required>
+
+          <label>Password</label>
+          <input type="password" name="password" placeholder="Enter password" required>
+
+          <button type="submit" class="btn primary">Log In</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- RIGHT: IMAGE -->
+    <div class="signup-image">
+      <img src="{% static 'img/login1.avif' %}" alt="Login image">
+    </div>
+
   </div>
 </section>
 {% endblock %}
