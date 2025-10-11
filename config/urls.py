@@ -21,5 +21,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path("", include("core.urls", namespace="core")), # ← this makes "/" go to core.home
     path('accounts/', include('accounts.urls')),  
+    path('nutrition/', include('nutrition.urls')),
+    
 
 ]
