@@ -18,6 +18,13 @@
       <a href="{% url 'core:nutrition' %}">Nutrition</a>
       <a href="{% url 'core:training' %}">Training</a>
       <a href="{% url 'core:metrics' %}">Metrics</a>
+      {% if user.is_authenticated %}
+  <span>Hello, {{ user.username }}</span>
+  <a href="{% url 'logout' %}">Logout</a>
+{% else %}
+  <a href="{% url 'login' %}">Login</a>
+  <a href="{% url 'signup' %}">Sign Up</a>
+{% endif %}
     </nav>
   </header>
   <main class="container">
