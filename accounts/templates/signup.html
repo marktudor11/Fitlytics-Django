@@ -12,6 +12,14 @@
 
       <form method="post">
         {% csrf_token %}
+        {% if form.errors %}
+          <div class="form-errors card" style="background:#2b2b2b;color:#ffdcdc;padding:12px;margin-bottom:12px;border-left:4px solid #ff6b6b;">
+            <strong>Please fix the following errors:</strong>
+            <div>
+              {{ form.errors.as_ul|safe }}
+            </div>
+          </div>
+        {% endif %}
         <div class="form-fields">
           <label>Username</label>
           <input type="text" name="username" placeholder="Enter username" required>
