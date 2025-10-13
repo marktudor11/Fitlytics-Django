@@ -26,4 +26,3 @@ class Meal(models.Model):
         return f"{self.user.username} - {self.food_name} ({self.meal_type})"
 from django.db import models
 
-# Create your models here.

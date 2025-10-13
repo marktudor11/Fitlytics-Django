@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 
 def login_view(request):
     """
-    Accepts either email or username in the 'email' field (keeps your current UI).
+    Accepts either email or username in the 'email' field 
     Uses LoginForm for server-side validation.
     """
     if request.method == "POST":
@@ -35,7 +35,7 @@ def login_view(request):
 
 def signup_view(request):
     """
-    Uses SignupForm.create_user_and_profile() to atomically create the User and Profile.
+    Uses SignupForm.create_user_and_profile() to create the User and Profile.
     Logs the user in on success.
     """
     # Ensure form is always defined so template rendering on GET works

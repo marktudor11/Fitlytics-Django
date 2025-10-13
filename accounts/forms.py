@@ -49,11 +49,7 @@ class SignupForm(forms.Form):
 
 
 class LoginForm(forms.Form):
-    """
-    Optional helper if you want server-side validation in your login view.
-    Your login.html uses 'email' + 'password'. We accept either email OR username
-    in the 'email' field to keep your UI unchanged.
-    """
+   
     email = forms.CharField()          # can be email or username
     password = forms.CharField(widget=forms.PasswordInput())
 
