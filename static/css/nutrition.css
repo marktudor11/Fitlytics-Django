@@ -155,11 +155,17 @@ body {
   font-size: 12px;
 }
 
-/* meal-select specific: show dark text and white dropdown in supported browsers */
+/* meal-select specific: keep styling consistent with dark theme and ensure visible text */
 .meal-select{
-  color: #1d1d1f; /* visible selected value */
-  background: #ffffff; /* white field for contrast */
+  /* match other inputs' translucent background and light text for contrast */
+  background: rgba(255,255,255,.10) !important;
+  color: #e9e9ec !important;
   padding: 8px 36px 8px 10px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  position: relative;
+  z-index: 1;
 }
 
 /* Some browsers don't allow styling native option; set general option color for fallback */
@@ -168,9 +174,63 @@ body {
   background: #ffffff;
 }
 
-/* keep the custom arrow light when using white background */
-.meal-select ~ .form-group::after, .form-group .meal-select + .form-group::after {
-  color: #1d1d1f;
+/* ensure the custom arrow doesn't block clicks */
+.form-group::after { z-index: 2; pointer-events: none; }
+
+/* Scoped overrides for meal-card controls to avoid conflicts with other page-level rules */
+.meal-card .form-group label {
+  display: block;
+  color: #e9e9ec;
+  font-weight: 500;
+  position: relative;
+  z-index: 3;
+}
+.meal-card .form-group input,
+.meal-card .form-group select,
+.meal-card .form-group textarea {
+  pointer-events: auto;
+  z-index: 3;
+}
+.meal-card .form-group::after {
+  color: #e9e9ec;
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Force-visible inputs/selects in the meal card (higher specificity to override other page rules) */
+.meal-card .form-group input,
+.meal-card .form-group select,
+.meal-card .form-group textarea {
+  min-height: 40px !important;
+  height: 40px !important;
+  padding: 8px 36px 8px 12px !important;
+  border: 1px solid rgba(255,255,255,0.18) !important;
+  background: rgba(255,255,255,0.06) !important;
+  color: #e9e9ec !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.02);
+  font-size: 15px !important;
+  border-radius: 8px !important;
+}
+
+/* placeholders */
+.meal-card .form-group input::placeholder,
+.meal-card .form-group textarea::placeholder {
+  color: rgba(233,233,236,0.6) !important;
+}
+
+/* ensure select arrow doesn't cover select text on some browsers */
+.meal-card .form-group select { padding-right: 36px !important; }
+
+/* Force the meal-card above other elements and ensure controls are visible/clickable */
+.meal-card { position: relative; z-index: 1000; }
+.meal-card .form-group input,
+.meal-card .form-group select,
+.meal-card .form-group textarea {
+  position: relative !important;
+  z-index: 1100 !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  display: block !important;
 }
 
 /* Unified Button Style */

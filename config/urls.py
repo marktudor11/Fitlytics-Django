@@ -23,7 +23,7 @@ urlpatterns = [
     path('accounts/', include('accounts.urls')),  
     path('nutrition/', include('nutrition.urls')),
     path('training/', include('training.urls')),
-    path("accounts/", include("accounts.urls"))
+    # accounts already included above
     
 
 ]
