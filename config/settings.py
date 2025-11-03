@@ -44,7 +44,8 @@ INSTALLED_APPS = [
     'core',
     'accounts',
     'nutrition',
-    'training'
+    'training',
+    'metrics'
 ]
 
 MIDDLEWARE = [
