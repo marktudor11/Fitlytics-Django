@@ -23,6 +23,7 @@ urlpatterns = [
     path('accounts/', include('accounts.urls')),  
     path('nutrition/', include('nutrition.urls')),
     path('training/', include('training.urls')),
+    path("metrics/", include(("metrics.urls", "metrics"), namespace="metrics"))
     # accounts already included above
     
 

@@ -124,7 +124,8 @@
                   <td><input type="number" step="0.5" min="0" name="weight_kg[]" placeholder="60.0"></td>
                   <td><input type="number" step="0.5" min="0" max="10" name="rir[]" placeholder="2"></td>
                   <td class="center">
-                    <input type="checkbox" name="is_warmup[]" value="1">
+                    <input type="hidden" name="is_warmup[]" value="0">
+                    <input type="checkbox" class="warmup-toggle" value="1">
                   </td>
                   <td class="action-cell">
                     <button type="button" class="icon-btn remove-row" aria-label="Remove set">&times;</button>
@@ -154,11 +155,11 @@
             <h3>{{ w.date }} — {{ w.duration_min|default:0 }} min</h3>
             <p class="muted">{{ w.notes }}</p>
           </div>
-          <div class="pill">Volume: <strong>{{ w.volume|default:0|floatformat:0 }}</strong></div>
+          <div class="pill">Volume: <strong>{{ w.total_volume|floatformat:0 }}</strong></div>
         </header>
 
         <!-- Exercises inside this workout -->
-        {% for ex in w.exercises %}
+  {% for ex in w.exercises.all %}
           <div class="exercise-block">
             <div class="ex-head">
               <h4>{{ ex.name }}</h4>
@@ -172,7 +173,7 @@
                   <tr><th>#</th><th>Reps</th><th>Weight</th><th>RIR</th><th>Warmup</th></tr>
                 </thead>
                 <tbody>
-                  {% for s in ex.sets %}
+                  {% for s in ex.sets.all %}
                     <tr>
                       <td>{{ forloop.counter }}</td>
                       <td>{{ s.reps }}</td>
@@ -245,10 +246,14 @@
       <td><input type="number" min="1" name="reps[]" placeholder="8" required></td>
       <td><input type="number" step="0.5" min="0" name="weight_kg[]" placeholder="60.0"></td>
       <td><input type="number" step="0.5" min="0" max="10" name="rir[]" placeholder="2"></td>
-      <td class="center"><input type="checkbox" name="is_warmup[]" value="1"></td>
+      <td class="center">
+        <input type="hidden" name="is_warmup[]" value="0">
+        <input type="checkbox" class="warmup-toggle" value="1">
+      </td>
       <td class="action-cell"><button type="button" class="icon-btn remove-row" aria-label="Remove set">&times;</button></td>
     `;
     table.appendChild(tr);
+    wireWarmupHandlers(tr);
     renumber();
   });
 
@@ -260,6 +265,19 @@
     }
   });
 
+  function wireWarmupHandlers(scope) {
+    const root = scope || document;
+    root.querySelectorAll('.warmup-toggle').forEach(cb => {
+      // initialize based on hidden value
+      const hidden = cb.closest('td').querySelector('input[type="hidden"][name="is_warmup[]"]');
+      if (hidden) cb.checked = hidden.value === '1';
+      cb.addEventListener('change', () => {
+        if (hidden) hidden.value = cb.checked ? '1' : '0';
+      });
+    });
+  }
+
+  wireWarmupHandlers(table);
   renumber();
 })();
 </script>

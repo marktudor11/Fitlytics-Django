@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Metrics{% endblock %}
+
+{% block content %}
+
+<section class="hero-banner" style="min-height:28vh; max-height:40vh;">
+  <img src="{% static 'img/metrics.avif' %}" alt="Metrics hero banner" style="min-height:28vh;">
+  <div class="hero-overlay">
+    <div class="content">
+      <h1>Metrics Dashboard</h1>
+      <p>Track your calories, macros, sets, and volume trends over time.</p>
+    </div>
+  </div>
+</section>
+
+<section class="container">
+  <p class="muted">Last 30 days · Nutrition and Training trends</p>
+  
+
+  <div class="grid cards-2">
+    <article class="card">
+      <header><h3>Daily Calories</h3></header>
+  <div class="chart-wrap"><canvas id="caloriesChart" height="260"></canvas></div>
+    </article>
+    <article class="card">
+      <header><h3>Training Volume (kg·reps)</h3></header>
+  <div class="chart-wrap"><canvas id="volumeChart" height="260"></canvas></div>
+    </article>
+  </div>
+
+  <div class="card">
+    <header><h3>Macros Breakdown</h3></header>
+  <div class="chart-wrap"><canvas id="macrosChart" height="260"></canvas></div>
+  </div>
+</section>
+
+{{ labels|json_script:"metrics-labels" }}
+{{ calories|json_script:"metrics-calories" }}
+{{ protein|json_script:"metrics-protein" }}
+{{ carbs|json_script:"metrics-carbs" }}
+{{ fat|json_script:"metrics-fat" }}
+{{ train_volume|json_script:"metrics-train-volume" }}
+{{ train_sets|json_script:"metrics-train-sets" }}
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script>
+  const L = JSON.parse(document.getElementById('metrics-labels').textContent);
+  const CAL = JSON.parse(document.getElementById('metrics-calories').textContent);
+  const PRO = JSON.parse(document.getElementById('metrics-protein').textContent);
+  const CAR = JSON.parse(document.getElementById('metrics-carbs').textContent);
+  const FAT = JSON.parse(document.getElementById('metrics-fat').textContent);
+  const VOL = JSON.parse(document.getElementById('metrics-train-volume').textContent);
+
+  const primary = getComputedStyle(document.body).getPropertyValue('--primary') || '#4f46e5';
+  const accent = getComputedStyle(document.body).getPropertyValue('--accent') || '#14b8a6';
+
+  new Chart(document.getElementById('caloriesChart'), {
+    type: 'line',
+    data: { labels: L, datasets: [{ label: 'Calories', data: CAL, borderColor: primary.trim(), backgroundColor: primary.trim() + '33', fill: true, tension: 0.25, pointRadius: 0 }] },
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { grid: { display: false } }, y: { beginAtZero: true } } }
+  });
+
+  new Chart(document.getElementById('volumeChart'), {
+    type: 'bar',
+    data: { labels: L, datasets: [{ label: 'Volume (kg·reps)', data: VOL, backgroundColor: accent.trim() + '66', borderColor: accent.trim(), borderWidth: 1 }] },
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { grid: { display: false } }, y: { beginAtZero: true } } }
+  });
+
+  new Chart(document.getElementById('macrosChart'), {
+    type: 'line',
+    data: {
+      labels: L,
+      datasets: [
+        { label: 'Protein', data: PRO, borderColor: '#22c55e', backgroundColor: '#22c55e33', fill: true, tension: 0.25, pointRadius: 0 },
+        { label: 'Carbs', data: CAR, borderColor: '#3b82f6', backgroundColor: '#3b82f633', fill: true, tension: 0.25, pointRadius: 0 },
+        { label: 'Fat', data: FAT, borderColor: '#f59e0b', backgroundColor: '#f59e0b33', fill: true, tension: 0.25, pointRadius: 0 },
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      stacked: true,
+      scales: { x: { grid: { display: false } }, y: { beginAtZero: true, stacked: true } }
+    }
+  });
+</script>
+{% endblock %}
