@@ -3,7 +3,8 @@
 {% block title %}Nutrition{% endblock %}
 
 {% block content %}
-<link rel="stylesheet" href="{% static 'css/nutrition.css' %}">
+{% load tz %}
+<link rel="stylesheet" href="{% static 'css/nutrition.css' %}?v={% now 'U' %}">
 
 <div class="nutrition-page">
 
@@ -22,19 +23,19 @@
     <div class="summary-grid">
       <div class="summary-card calories">
         <h3>Calories</h3>
-        <p><strong>1,870</strong> / 2,100 kcal</p>
+        <p><strong>{{ totals.calories|default:0 }}</strong> / 2,100 kcal</p>
       </div>
       <div class="summary-card protein">
         <h3>Protein</h3>
-        <p><strong>145g</strong> / 160g</p>
+        <p><strong>{{ totals.protein|default:0 }}</strong> g / 160g</p>
       </div>
       <div class="summary-card carbs">
         <h3>Carbs</h3>
-        <p><strong>210g</strong> / 250g</p>
+        <p><strong>{{ totals.carbs|default:0 }}</strong> g / 250g</p>
       </div>
       <div class="summary-card fat">
         <h3>Fat</h3>
-        <p><strong>60g</strong> / 70g</p>
+        <p><strong>{{ totals.fat|default:0 }}</strong> g / 70g</p>
       </div>
     </div>
   </section>
@@ -44,51 +45,67 @@
     <div class="meal-card">
       <h2>🍴 Log a Meal</h2>
       <p class="subtitle">Quickly add your meals and track your daily intake.</p>
+      {% if messages %}
+      <div class="messages">
+        {% for message in messages %}
+          <div class="msg {{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+      </div>
+      {% endif %}
 
-      <form method="post" class="meal-form">
+      {% if form %}
+      <form method="post" action="{% url 'nutrition:home' %}" class="meal-form">
         {% csrf_token %}
 
         <div class="form-grid">
           <div class="form-group">
-            <label>Meal Type</label>
-            <select name="meal" required class="meal-select">
-              <option>Breakfast</option>
-              <option>Lunch</option>
-              <option>Dinner</option>
-              <option>Snack</option>
-            </select>
+            {{ form.meal_type.label_tag }}
+            {{ form.meal_type }}
+            {{ form.meal_type.errors }}
           </div>
 
           <div class="form-group">
-            <label>Food Name</label>
-            <input type="text" name="food" placeholder="Grilled Chicken" required>
+            {{ form.food_name.label_tag }}
+            {{ form.food_name }}
+            {{ form.food_name.errors }}
           </div>
 
           <div class="form-group">
-            <label>Calories</label>
-            <input type="number" name="calories" placeholder="300" required>
+            {{ form.calories.label_tag }}
+            {{ form.calories }}
+            {{ form.calories.errors }}
           </div>
 
           <div class="form-group">
-            <label>Protein (g)</label>
-            <input type="number" name="protein" placeholder="30">
+            {{ form.protein.label_tag }}
+            {{ form.protein }}
+            {{ form.protein.errors }}
           </div>
 
           <div class="form-group">
-            <label>Carbs (g)</label>
-            <input type="number" name="carbs" placeholder="20">
+            {{ form.carbs.label_tag }}
+            {{ form.carbs }}
+            {{ form.carbs.errors }}
           </div>
 
           <div class="form-group">
-            <label>Fat (g)</label>
-            <input type="number" name="fat" placeholder="10">
+            {{ form.fat.label_tag }}
+            {{ form.fat }}
+            {{ form.fat.errors }}
           </div>
         </div>
 
         <button type="submit" class="btn-log">+ Add Meal</button>
       </form>
+      {% else %}
+      <div class="login-cta" style="text-align:center;padding:18px;">
+        <p style="color:#cfcfd6">Please <a href="{% url 'accounts:login' %}?next={{ request.path }}">log in</a> to add meals.</p>
+      </div>
+      {% endif %}
     </div>
   </section>
+
+  
 
   <!-- Meal History Table -->
   <section class="meal-history">
@@ -105,22 +122,20 @@
         </tr>
       </thead>
       <tbody>
+        {% for meal in meals %}
         <tr>
-          <td>Breakfast</td>
-          <td>Oatmeal with Milk</td>
-          <td>320</td>
-          <td>15g</td>
-          <td>45g</td>
-          <td>8g</td>
+          <td>{{ meal.meal_type }}</td>
+          <td>{{ meal.food_name }}</td>
+          <td>{{ meal.calories }}</td>
+          <td>{{ meal.protein|default:0 }}g</td>
+          <td>{{ meal.carbs|default:0 }}g</td>
+          <td>{{ meal.fat|default:0 }}g</td>
         </tr>
+        {% empty %}
         <tr>
-          <td>Lunch</td>
-          <td>Chicken & Rice</td>
-          <td>550</td>
-          <td>40g</td>
-          <td>60g</td>
-          <td>10g</td>
+          <td colspan="6" class="muted">No meals logged for today.</td>
         </tr>
+        {% endfor %}
       </tbody>
     </table>
   </section>
