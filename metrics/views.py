@@ -42,7 +42,7 @@ def _meal_date_field():
 def metrics_home(request):
     start, end, labels = _last_n_days(30)
 
-    # ---------- Nutrition: per-day sums (timezone-aware local day) ----------
+   
     meal_date_field, is_dt = _meal_date_field()
     tz = timezone.get_current_timezone()
     if is_dt:
@@ -81,9 +81,7 @@ def metrics_home(request):
     except Exception:
         logger.warning("Metrics nutrition logging failed")
 
-    # ---------- Training: per-day totals from sets ----------
-    # Assume TrainingSession has a DateField named 'date'
-    # Build volume safely as Decimal: weight_kg (Decimal) * reps (cast to Decimal)
+  
     vol_field = DecimalField(max_digits=14, decimal_places=2)
     train_qs = (
         Set.objects.filter(
@@ -171,3 +169,69 @@ def metrics_home(request):
         "train_vol_sum": float(sum(train_volume)) if train_volume else 0.0,
     }
     return render(request, "metrics.html", ctx)
+
+import csv
+from django.http import HttpResponse
+
+@login_required
+def metrics_export_csv(request):
+    start, end, labels = _last_n_days(30)
+
+    meal_field, is_dt = _meal_date_field()
+    tz = timezone.get_current_timezone()
+    if is_dt:
+        filt = {"user": request.user}
+        day_expr = TruncDate(meal_field, tzinfo=tz)
+    else:
+        filt = {"user": request.user}
+        day_expr = TruncDate(meal_field)
+
+    nut = (
+        Meal.objects.filter(**filt)
+        .annotate(day=day_expr)
+        .values("day")
+        .annotate(
+            calories=Coalesce(Sum("calories"), Value(0), output_field=IntegerField()),
+            protein=Coalesce(Sum("protein"), Value(0.0), output_field=FloatField()),
+            carbs=Coalesce(Sum("carbs"), Value(0.0), output_field=FloatField()),
+            fat=Coalesce(Sum("fat"), Value(0.0), output_field=FloatField()),
+        )
+    )
+    nut_map = {r["day"].isoformat(): r for r in nut}
+
+    vol_field = DecimalField(max_digits=14, decimal_places=2)
+    train = (
+        Set.objects.filter(exercise__session__user=request.user)
+        .annotate(day=F("exercise__session__date"))
+        .annotate(
+            vol_raw=ExpressionWrapper(
+                F("weight_kg") * Cast(F("reps"), output_field=vol_field),
+                output_field=vol_field,
+            )
+        )
+        .annotate(
+            volume=Coalesce(F("vol_raw"), Value(0, output_field=vol_field), output_field=vol_field)
+        )
+        .values("day")
+        .annotate(
+            total_volume=Coalesce(Sum("volume"), Value(0, output_field=vol_field), output_field=vol_field),
+            total_sets=Coalesce(Count("id"), 0),
+        )
+    )
+    train_map = {r["day"].isoformat(): r for r in train}
+
+    response = HttpResponse(content_type="text/csv")
+    response["Content-Disposition"] = 'attachment; filename="metrics_30_days.csv"'
+    w = csv.writer(response)
+    w.writerow(["date", "calories", "protein", "carbs", "fat", "training_volume", "training_sets"])
+    for d in labels:
+        w.writerow([
+            d,
+            nut_map.get(d, {}).get("calories", 0),
+            nut_map.get(d, {}).get("protein", 0),
+            nut_map.get(d, {}).get("carbs", 0),
+            nut_map.get(d, {}).get("fat", 0),
+            train_map.get(d, {}).get("total_volume", 0),
+            train_map.get(d, {}).get("total_sets", 0),
+        ])
+    return response
