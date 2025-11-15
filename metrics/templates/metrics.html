@@ -3,7 +3,7 @@
 {% block title %}Metrics{% endblock %}
 
 {% block content %}
-
+<p><a class="btn" href="{% url 'metrics:export_csv' %}">Download 30‑day CSV</a></p>
 <section class="hero-banner" style="min-height:28vh; max-height:40vh;">
   <img src="{% static 'img/metrics.avif' %}" alt="Metrics hero banner" style="min-height:28vh;">
   <div class="hero-overlay">

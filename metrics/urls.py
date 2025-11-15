@@ -6,4 +6,5 @@ app_name = "metrics"
 
 urlpatterns = [
     path("", views.metrics_home, name="home"),
+    path("export.csv", views.metrics_export_csv, name="export_csv")
 ]
