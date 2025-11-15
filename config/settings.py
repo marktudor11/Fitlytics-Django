@@ -45,8 +45,11 @@ INSTALLED_APPS = [
     'accounts',
     'nutrition',
     'training',
-    'metrics'
+    'metrics',
+    'assistant'
 ]
+
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
