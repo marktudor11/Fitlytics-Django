@@ -1,33 +1,43 @@
-{% load static %}
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <title>{% block title %}Fitlytics{% endblock %}</title>
-  <link rel="icon" href="{% static 'img/favicon.ico' %}">
-  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-</head>
-<body class="site">
-  <header class="nav">
-    <a href="/">Fitlytics</a>
-    <nav>
-  <a href="{% url 'core:home' %}">Home</a>
-  <a href="{% url 'nutrition:home' %}">Nutrition</a>
-    <a href="{% url 'training:home' %}">Training</a>
-      <a href="{% url 'metrics:home' %}">Metrics</a>
-      {% if user.is_authenticated %}
-        <span class="muted">Hello, {{ user.username }}</span>
-        <a href="{% url 'accounts:logout' %}" class="btn ghost">Logout</a>
-      {% else %}
-        <a href="{% url 'accounts:login' %}" class="btn">Login</a>
-        <a href="{% url 'accounts:signup' %}" class="btn primary">Sign Up</a>
-      {% endif %}
-    </nav>
+<div id="ai-chat-toggle">AI Coach</div>
+<div id="ai-chat-panel" class="card" style="position:fixed;bottom:1rem;right:1rem;width:320px;max-height:60vh;display:none;flex-direction:column;z-index:999;">
+  <header style="display:flex;justify-content:space-between;align-items:center;">
+    <strong>AI Fitness Coach</strong>
+    <button type="button" id="ai-chat-close" style="background:none;border:none;">✕</button>
   </header>
-  <main class="container">
-    {% block content %}{% endblock %}
-  </main>
-  <footer class="footer">© {{ now|default:"" }} Fitlytics</footer>
-</body>
-</html>
+  <div id="ai-chat-log" style="overflow-y:auto;font-size:.85rem;padding:.5rem;flex:1;"></div>
+  <form id="ai-chat-form" style="display:flex;gap:.5rem;padding:.5rem;">
+    <input name="q" id="ai-chat-input" class="input" placeholder="Ask..." style="flex:1;">
+    <button class="btn" type="submit">Send</button>
+  </form>
+  <small class="muted" style="padding:0 .5rem .5rem;">Educational only.</small>
+</div>
+<style>
+#ai-chat-toggle{position:fixed;bottom:1rem;right:1rem;background:var(--primary,#4f46e5);color:#fff;
+padding:.6rem .9rem;border-radius:999px;font-size:.75rem;cursor:pointer;z-index:998;}
+#ai-chat-log .user{color:var(--primary,#4f46e5);}#ai-chat-log .ai{color:var(--accent,#14b8a6);}
+</style>
+<script>
+(function(){
+ const t=document.getElementById('ai-chat-toggle');
+ const p=document.getElementById('ai-chat-panel');
+ const c=document.getElementById('ai-chat-close');
+ const f=document.getElementById('ai-chat-form');
+ const log=document.getElementById('ai-chat-log');
+ const inp=document.getElementById('ai-chat-input');
+ t.onclick=()=>p.style.display='flex'; c.onclick=()=>p.style.display='none';
+ f.addEventListener('submit',async e=>{
+   e.preventDefault(); const q=inp.value.trim(); if(!q) return;
+   add('user',q); inp.value=''; add('ai','Thinking...');
+   try{
+     const fd=new FormData(); fd.append('q',q);
+     const r=await fetch('/ai/chat/',{method:'POST',body:fd,credentials:'same-origin'});
+     const data=await r.json(); log.lastElementChild.remove(); add('ai',data.answer||'No answer');
+   }catch{ log.lastElementChild.remove(); add('ai','Error'); }
+ });
+ function add(role,text){
+   const d=document.createElement('div'); d.className='msg '+role;
+   d.textContent= role==='ai'? text : 'You: '+text;
+   log.appendChild(d); log.scrollTop=log.scrollHeight;
+ }
+})();
+</script>
