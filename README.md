@@ -28,19 +28,9 @@ The focus is on:
 | 🏋️‍♀️ **Workout Logging** | Record exercises, sets, reps, and weights; auto-detect PRs; visualize training volume by muscle group. |
 | ⚖️ **Body Metrics** | Track weight, moving averages (MA7), and detect plateaus automatically. |
 | 💡 **Goal Coaching** | Intelligent suggestions (e.g., “add +200 kcal” or “reduce −150 kcal”) based on recent progress. |
-| 🔔 **Reminders** | Celery-powered daily prompts (e.g., “Log lunch,” “Weigh-in Fridays”). |
 | 📤 **Import / Export** | CSV data management — meals, workouts, and weights. |
-| 👥 **Coach View** | Optional role to monitor multiple users’ data securely. |
 | 🎨 **UI / UX** | Pure Django templates + modern CSS (Apple-inspired look). |
 
----
-
-## 🖼️ Preview (Concept)
-> *(Design preview – in development)*  
-
-<p align="center">
-  <img src="https://via.placeholder.com/900x450.png?text=Fitlytics+Dashboard+Preview" alt="Fitlytics Screenshot" width="85%"/>
-</p>
 
 ---
 
@@ -52,6 +42,5 @@ The focus is on:
 | **Language** | Python 3.12+ |
 | **Frontend** | Django Templates, Vanilla CSS (Apple-inspired) |
 | **Database** | PostgreSQL (prod) / SQLite (dev) |
-| **Task Scheduling** | Celery + Redis |
 | **Version Control** | Git + GitHub |
 | **Environment** | `.venv` (Python virtual environment) |
