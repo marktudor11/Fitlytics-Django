@@ -24,7 +24,8 @@ urlpatterns = [
     path('nutrition/', include('nutrition.urls')),
     path('training/', include('training.urls')),
     path("metrics/", include(("metrics.urls", "metrics"), namespace="metrics")),
-    path("ai/", include(("assistant.urls", "assistant"), namespace="assistant"))
+    path("ai/", include(("assistant.urls", "assistant"), namespace="assistant")),
+    path("accounts/", include("django.contrib.auth.urls"))
     
 
 ]
