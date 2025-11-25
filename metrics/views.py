@@ -22,11 +22,7 @@ def _last_n_days(days=30):
 
 
 def _meal_date_field():
-    """
-    Detect which date-like field the Meal model has.
-    Prefer 'date' if present, else 'created_at', else 'created_on', else 'consumed_at'.
-    Returns (field_name, is_datetime)
-    """
+    
     candidates = ("date", "created_at", "created_on", "consumed_at")
     for name in candidates:
         try:
@@ -46,13 +42,13 @@ def metrics_home(request):
     meal_date_field, is_dt = _meal_date_field()
     tz = timezone.get_current_timezone()
     if is_dt:
-        # Group by local-day using TruncDate; no date-range filter to avoid tz edge-cases
+        
         filt = {
             "user": request.user,
         }
         day_expr = TruncDate(meal_date_field, tzinfo=tz)
     else:
-        # DateField: still use TruncDate for consistency
+        
         filt = {
             "user": request.user,
         }

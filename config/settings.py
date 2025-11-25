@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'assistant'
 ]
 
+load_dotenv() # loads .env from project root
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")
 
 MIDDLEWARE = [
