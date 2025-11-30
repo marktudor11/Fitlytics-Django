@@ -8,6 +8,23 @@
   <link rel="stylesheet" href="{% static 'css/styles.css' %}">
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 </head>
+<button id="theme-toggle" style="position:fixed;bottom:1rem;left:1rem;padding:.55rem .9rem;border:0;border-radius:8px;background:#111;color:#fff;font-size:.75rem;cursor:pointer;z-index:998;">Dark</button>
+<script>
+(function(){
+  const btn=document.getElementById('theme-toggle');
+  const root=document.documentElement;
+  let dark=false;
+  if(localStorage.getItem('fitlytics_theme')==='dark'){
+    dark=true; root.classList.add('dark-mode'); btn.textContent='Light';
+  }
+  btn.onclick=()=>{
+    dark=!dark;
+    root.classList.toggle('dark-mode', dark);
+    btn.textContent= dark ? 'Light' : 'Dark';
+    localStorage.setItem('fitlytics_theme', dark ? 'dark' : 'light');
+  };
+})();
+</script>
 <body class="site">
   <header class="nav">
     <a href="/">Fitlytics</a>
