@@ -44,3 +44,21 @@ The focus is on:
 | **Database** | PostgreSQL (prod) / SQLite (dev) |
 | **Version Control** | Git + GitHub |
 | **Environment** | `.venv` (Python virtual environment) |
+
+---
+
+## 👥 **Contributors**
+
+Thanks to the following team members for building Fitlytics:
+
+- **Mark Tudor** — Backend Development, AI Integration, Deployment  
+  GitHub: marktudor11
+
+- **Phillip Shmaon** — Data Analytics, Metrics, CSV Export  
+  GitHub: phillipshmaon
+
+- **Andy Abro** — Frontend UI/UX, Dashboard Design, Chat UI  
+  GitHub: fadybuni 
+
+- **Fady Buni** — Security, Validation, Testing  
+  GitHub: Andyabro
