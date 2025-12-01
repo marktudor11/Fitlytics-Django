@@ -27,7 +27,7 @@ The focus is on:
 | 🥗 **Nutrition Tracking** | Log meals, calories, and macros; view rolling 7/30-day averages; track daily compliance vs. goals. |
 | 🏋️‍♀️ **Workout Logging** | Record exercises, sets, reps, and weights; auto-detect PRs; visualize training volume by muscle group. |
 | ⚖️ **Body Metrics** | Track weight, moving averages (MA7), and detect plateaus automatically. |
-| 💡 **Goal Coaching** | Intelligent suggestions (e.g., “add +200 kcal” or “reduce −150 kcal”) based on recent progress. |
+| 💡 **AI Coaching** | Intelligent suggestions (e.g., “add +200 kcal” or “reduce −150 kcal”) based on recent progress. |
 | 📤 **Import / Export** | CSV data management — meals, workouts, and weights. |
 | 🎨 **UI / UX** | Pure Django templates + modern CSS (Apple-inspired look). |
 
