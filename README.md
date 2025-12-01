@@ -40,8 +40,9 @@ The focus is on:
 |--------|----------------------|
 | **Framework** | Django 5.x |
 | **Language** | Python 3.12+ |
-| **Frontend** | Django Templates, Vanilla CSS (Apple-inspired) |
-| **Database** | PostgreSQL (prod) / SQLite (dev) |
+| **Frontend** | Django Templates |
+| **Database** | PostgreSQL (prod) Supabase |
+| **AI Chatbot** | Google Gemini API
 | **Version Control** | Git + GitHub |
 | **Environment** | `.venv` (Python virtual environment) |
 
