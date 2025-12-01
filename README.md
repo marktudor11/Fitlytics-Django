@@ -52,13 +52,13 @@ The focus is on:
 Thanks to the following team members for building Fitlytics:
 
 - **Mark Tudor** — Backend Development, AI Integration, Deployment  
-  GitHub: marktudor11
+  GitHub: Mark Tudor -  marktudor11
 
 - **Phillip Shmaon** — Data Analytics, Metrics, CSV Export  
-  GitHub: phillipshmaon
+  GitHub: Phillip Shmaon - phillipshmaon
 
 - **Andy Abro** — Frontend UI/UX, Dashboard Design, Chat UI  
-  GitHub: fadybuni 
+  GitHub: Fady Buni - fadybuni 
 
 - **Fady Buni** — Security, Validation, Testing  
-  GitHub: Andyabro
+  GitHub: Andy Abro - Andyabro
