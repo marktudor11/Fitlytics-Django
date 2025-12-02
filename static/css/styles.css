@@ -373,3 +373,16 @@ h1{
 .signup-container .form-fields > button {
   width: auto !important;
 }
+/* Dark mode additions */
+:root.dark-mode {
+  --bg:#0f172a; --text:#e2e8f0; --panel:#1e293b; --border:#334155;
+}
+:root.dark-mode body { background:var(--bg); color:var(--text); }
+:root.dark-mode header.nav, :root.dark-mode #ai-chat-panel {
+  background:var(--panel); border-color:var(--border);
+}
+:root.dark-mode a { color:#93c5fd; }
+:root.dark-mode #ai-chat-toggle { background:linear-gradient(135deg,#6366f1,#4338ca); }
+:root.dark-mode input, :root.dark-mode textarea {
+  background:#0f172a; color:var(--text); border:1px solid var(--border);
+}
